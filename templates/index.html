@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<!--[if IE]>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<![endif]-->
+<meta charset="utf-8">
+<title>blueimp Gallery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/css/blueimp-gallery.min.css">
+<link rel="stylesheet" href="/static/css/blueimp-gallery-indicator.css">
+<link rel="stylesheet" href="/static/css/demo/demo.css">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+</head>
+<body>
+<h1>Alaric's Light Story</h1>
+<p>Hi, I'm <a href="http://www.alaricbg.com">Alaric.Z</a>. This is photography blog I built for recording, sharing my photos with public. For now, I'm a grad student in University of Delaware, major in Computer Science. I love photography, I hope one day I can took the picture that people can stare at it more than one 30 seconds and bring people's mind far away from where they stood.
+<br> 
+The frontend of this site based on <a href="https://github.com/blueimp/Gallery">blueimp Gallery</a>. Really thanks those guys provide so cool code</p>
+<br>
+<h2>Carousel image gallery</h2>
+<!-- The Gallery as inline carousel, can be positioned anywhere on the page -->
+<div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="play-pause"></a>
+</div>
+<br>
+
+<h2>Lightbox image gallery</h2>
+
+<div id="links" class="links">
+	{% for value in result%}
+		<a href="/static/images/{{value[0]}}" title="{{value[1]}}">			
+			<img src = "/static/images/thumbnails/{{value[0]}}" alt = "{{value[1]}}">
+		</a>
+	{% endfor %}
+</div>
+<!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
+
+<script src="/static/js/blueimp-gallery.min.js"></script>
+<script>
+	document.getElementById('links').onclick = function (event) {
+	    event = event || window.event;
+	    var target = event.target || event.srcElement,
+	        link = target.src ? target.parentNode : target,
+	        options = {index: link, event: event},
+	        links = this.getElementsByTagName('a');
+	    blueimp.Gallery(links, options);
+	};
+	blueimp.Gallery(
+	    document.getElementById('links').getElementsByTagName('a'),
+	    {
+	        container: '#blueimp-gallery-carousel',
+	        carousel: true
+	    }
+	);
+</script>
+</body>
+</html>
