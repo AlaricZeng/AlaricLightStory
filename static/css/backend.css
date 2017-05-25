@@ -1,7 +1,7 @@
 #login-area
 {	
 	position: fixed;
-	width: 100%;
+	width: 110%;
 	height: 100%;
 	top: 0;
 	left: 0;
@@ -18,5 +18,7 @@
 	min-width: 370px;
 	height: 350px;
 	background: #f7f7f7;
+	opacity: 0.8;
+    filter: alpha(opacity=80);
 }
 
