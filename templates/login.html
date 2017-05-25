@@ -5,25 +5,31 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 	<link href = "/static/css/backend.css" rel = "stylesheet" type = "text/css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<style rel = "stylesheet" type = "text/css">
+	.login-input
+	{
+		margin-bottom: 20px;
+	}
+	</style>
 </head>
 <body>
 	<div id = "login-area" class="row">
-		<div id="login-container" class="col-md-4 col-sm-8 col-md-offset-4 col-sm-2">
+		<div id="login-container" class="col-md-4 col-sm-10 col-md-offset-4 col-sm-offset-1">
 			<form action = "/admin" method = "post">
 				<div class="form-group">
-					<label for = "username" class = "col-sm-2 control-label">Username:</label>
-					<div class = "col-sm-10">
+					<label for = "username" class = "col-sm-3 control-label">Username:</label>
+					<div class = "col-sm-9 login-input">
 						<input name = "username" type = "text" class = "form-control">
 					</div>
 				</div>
 				<div class="form-group">
-					<label for = "password" class = "col-sm-2 control-label">Password:</label>
-					<div class = "col-sm-10">
-						<input name = "password" type = "password" class = "form-control">
+					<label for = "password" class = "col-sm-3 control-label">Password:</label>
+					<div class = "col-sm-9 login-input">
+						<input name = "password" type = "password" class = "form-control login-input">
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
+					<div class="col-sm-offset-3 col-sm-9">
 						<button type = "submit" name = "submit" class = "btn btn-primary">Log in</button>
 					</div>
 				</div>

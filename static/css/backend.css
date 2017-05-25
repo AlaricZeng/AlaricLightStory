@@ -5,6 +5,8 @@
 	height: 100%;
 	top: 0;
 	left: 0;
+	align-items: center;
+	display: flex;
 	background-image: linear-gradient(
 						rgb(104, 145, 162),
 						rgb(12, 97, 33));
@@ -12,8 +14,8 @@
 
 #login-container
 {
-	margin-top: 50px;
-	min-width: 350px;
+	position: relative;
+	min-width: 370px;
 	height: 350px;
 	background: #f7f7f7;
 }
