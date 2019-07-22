@@ -59,7 +59,7 @@
       // The tag name, Id, element or querySelector of the slides container:
       slidesContainer: 'div',
       // The tag name, Id, element or querySelector of the title element:
-      titleElement: 'h3',
+      titleElement: 'a',
       // The class to add when the gallery is visible:
       displayClass: 'blueimp-gallery-display',
       // The class to add when the gallery controls are visible:
@@ -94,6 +94,8 @@
       typeProperty: 'type',
       // The list object property (or data attribute) with the object title:
       titleProperty: 'title',
+      // The list object property (or data attribute) with the linked page index:
+      linkedPageProperty: 'linked-page-index',
       // The list object property (or data attribute) with the object URL:
       urlProperty: 'href',
       // The list object property (or data attribute) with the object srcset URL(s):
@@ -934,11 +936,15 @@
 
     setTitle: function (index) {
       var text = this.slides[index].firstChild.title
+      var url = "http://127.0.0.1:5000/stories?story_id=" + this.slides[index].firstChild.linkedPage
       var titleElement = this.titleElement
       if (titleElement.length) {
         this.titleElement.empty()
         if (text) {
           titleElement[0].appendChild(document.createTextNode(text))
+        }
+        if (this.slides[index].firstChild.linkedPage != 'None') {
+          titleElement[0].href = url
         }
       }
     },
@@ -958,6 +964,7 @@
       var called
       var element
       var title
+      var linkedPage
       function callbackWrapper (event) {
         if (!called) {
           event = {
@@ -985,6 +992,7 @@
       if (typeof url !== 'string') {
         url = this.getItemProperty(obj, this.options.urlProperty)
         title = this.getItemProperty(obj, this.options.titleProperty)
+        linkedPage = this.getItemProperty(obj, this.options.linkedPageProperty)
       }
       if (backgroundSize === true) {
         backgroundSize = 'contain'
@@ -999,6 +1007,9 @@
       }
       if (title) {
         element.title = title
+      }
+      if (linkedPage) {
+        element.linkedPage = linkedPage
       }
       $(img).on('load error', callbackWrapper)
       img.src = url
@@ -1207,7 +1218,7 @@
     },
 
     getItemProperty: function (obj, property) {
-      var prop = obj[property]
+      var prop = obj.getAttribute(property)
       if (prop === undefined) {
         prop = this.getDataProperty(obj, property)
         if (prop === undefined) {

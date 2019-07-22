@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/static/css/blueimp-gallery.min.css">
 <link rel="stylesheet" href="/static/css/blueimp-gallery-indicator.css">
-<link rel="stylesheet" href="/static/css/demo/demo.css">
+<link rel="stylesheet" href="/static/css/main-theme.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </head>
 <body>
@@ -18,38 +18,55 @@
 <br> 
 The frontend of this site based on <a href="https://github.com/blueimp/Gallery">blueimp Gallery</a>. Really thanks those guys provide so cool code</p>
 <br>
-<h2>Carousel image gallery</h2>
-<!-- The Gallery as inline carousel, can be positioned anywhere on the page -->
-<div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
-    <div class="slides"></div>
-    <h3 class="title"></h3>
-    <a class="prev">‹</a>
-    <a class="next">›</a>
-    <a class="play-pause"></a>
-</div>
-<br>
 
-<h2>Lightbox image gallery</h2>
+<div id="image-content">
+	<h2>Carousel image gallery</h2>
+	<!-- The Gallery as inline carousel, can be positioned anywhere on the page -->
+	<div id="blueimp-gallery-carousel" class="blueimp-gallery blueimp-gallery-carousel">
+	    <div class="slides"></div>
+	    <h3 class="title"><a></a></h3>
+	    <a class="prev">‹</a>
+	    <a class="next">›</a>
+	    <a class="play-pause"></a>
+	</div>
+	<br>
 
-<div id="links" class="links">
-	{% for value in result%}
-		<a href="/static/images/{{value[0]}}" title="{{value[1]}}">			
-			<img src = "/static/images/thumbnails/{{value[0]}}" alt = "{{value[1]}}">
-		</a>
-	{% endfor %}
-</div>
-<!-- The Gallery as lightbox dialog, should be a child element of the document body -->
-<div id="blueimp-gallery" class="blueimp-gallery">
-    <div class="slides"></div>
-    <h3 class="title"></h3>
-    <a class="prev">‹</a>
-    <a class="next">›</a>
-    <a class="close">×</a>
-    <a class="play-pause"></a>
-    <ol class="indicator"></ol>
+	<h2>Lightbox image gallery</h2>
+	<div id="links" class="links">
+		{% for value in images %}
+			<a href="/static/images/{{value[0]}}" title="{{value[1]}}" linked-page-index="{{value[2]}}">	
+				<img src = "/static/images/thumbnails/{{value[0]}}" alt = "{{value[1]}}">
+			</a>
+		{% endfor %}
+	</div>
+	<!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+	<div id="blueimp-gallery" class="blueimp-gallery">
+	    <div class="slides"></div>
+	    <h3 class="title"><a></a></h3>
+	    <a class="prev">‹</a>
+	    <a class="next">›</a>
+	    <a class="close">×</a>
+	    <a class="play-pause"></a>
+	    <ol class="indicator"></ol>
+	</div>
 </div>
 
-<script src="/static/js/blueimp-gallery.min.js"></script>
+<hr>
+<div id="story-content">
+	<h2>
+		Travel Notes
+		<span>Wrote At</span>
+	</h2>
+	<h3>
+		{% for value in stories %}
+			<a href = "http://127.0.0.1:5000/stories?story_id={{value[0]}}">{{value[1]}}</a>
+			<span>{{value[2]}}</span>
+			<br>
+		{% endfor %}
+	</h3>
+</div>
+
+<script src="/static/js/blueimp-gallery.js"></script>
 <script>
 	document.getElementById('links').onclick = function (event) {
 	    event = event || window.event;

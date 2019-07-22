@@ -1,24 +1,44 @@
-#login-area
-{	
-	position: fixed;
-	width: 110%;
-	height: 100%;
-	top: 0;
-	left: 0;
-	align-items: center;
-	display: flex;
-	background-image: linear-gradient(
-						rgb(104, 145, 162),
-						rgb(12, 97, 33));
+body {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 1em;
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, sans-serif;
+  font-size: 1em;
+  line-height: 1.4em;
+  background: rgb(250,250,250);
+  color: #000;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
 }
 
-#login-container
-{
-	position: relative;
-	min-width: 370px;
-	height: 350px;
-	background: #f7f7f7;
-	opacity: 0.8;
-    filter: alpha(opacity=80);
+h1 {
+  line-height: 2em;
 }
 
+h2 {
+  line-height: 1.5em;
+}
+
+hr {
+  border: 0;
+  outline: none;
+  height: 2px;
+  background: #ddd;
+  margin: 35px 0 35px 0;
+}
+.container-title {
+	background-color: #EEEEEE;
+}
+
+#upload-image-form span {
+	font-size: 1.2em;
+	line-height: 2em;
+}
+
+.upload-image-container {
+	margin-top: 15px;
+}
+
+.application--wrap {
+  min-height: 100px !important; 
+}

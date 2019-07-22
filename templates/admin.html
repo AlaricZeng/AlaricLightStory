@@ -1,15 +1,152 @@
 <html>
+   <head>
+      <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+   <link href = "/static/css/backend.css" rel = "stylesheet" type = "text/css">
+   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+   <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+   <link href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" rel="stylesheet">
+   </head>
    <body>
-      <form action = "http://localhost/admin/upload" method = "POST" 
-         enctype = "multipart/form-data">
-         <input type = "file" name = "file" />
-         tag: <input type = "text" name = "tag" />
+      <h1> Backend System</h1>
+      <div id="image-management-container">
+         <h2> Image Management </h2>
          <br>
+         <v-app class="vue-application">
+            <v-card>
+               <v-card-title class="container-title">
+                  <h2>Upload Image</h2>
+               </v-card-title>
+               <v-card-text>
+                  <form action = "http://127.0.0.1:5000/admin/upload_image" method = "post" enctype = "multipart/form-data" id="upload-image-form">
+                     <div>
+                        <span>Image Link:</span> <input type = "file" name = "file" class='upload-image-button' />
+                     </div>
+                     <div class="upload-image-container">
+                        <span>Zoomed Image Link:</span> <input type = "file" name = "zoom_file" class='upload-image-button'/>
+                     </div>
+                     <v-text-field name="tag" label="Tag"></v-text-field>
+                     <v-select v-model="select" :items="storyTitles" label="Travel Note"></v-select>
+                     <input type="hidden" v-model="select" name="linked_page" />
+                     <v-checkbox label="Display?" name="display" value="display"></v-checkbox>
+                  </form>
+               </v-card-text>
+               <v-card-actions>
+                  <v-btn @click="submit">Submit</v-btn>
+               </v-card-actions>
+            </v-card>
+            <br>
+             <v-dialog v-model="editDialog" max-width="500px">
+               <v-card>
+                  <v-card-title>
+                     <span class="headline">Edit Image Info</span>
+                  </v-card-title>
+        
+                  <v-card-text>
+                     <v-container grid-list-md>
+                        <v-layout wrap>
+                           <v-flex xs12 sm6 md4>
+                              <img :src = "editedItem.url">
+                           </v-flex>
+                           <v-flex xs12 sm6 md8>
+                              Linked Story
+                              <v-select v-model="editedItem.story" :items="storyTitles" label="Travel Note"></v-select>
+                              Display?
+                              <v-checkbox v-model="editedItem.display"></v-checkbox>
+                           </v-flex>
+                        </v-layout>
+                     </v-container>
+                  </v-card-text>
+        
+                  <v-card-actions>
+                     <v-spacer></v-spacer>
+                     <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
+                     <v-btn color="blue darken-1" flat @click="save">Save</v-btn>
+                  </v-card-actions>
+               </v-card>
+            </v-dialog>
+            <h2>Image List</h2>
+            <v-data-table :headers="imageTableHeaders" :items="imageInfo">
+               <template v-slot:items="props">
+                  <td> <img :src = "props.item.url"></td>
+                  <td>{{ '{{ props.item.story}}' }}</td>
+                  <td><v-checkbox hide-details v-model="props.item.display" disabled></v-checkbox></td>
+                  <td class="text-xs-left">
+                     <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
+                     <v-icon small @click="deleteItem(props.item)">delete</v-icon>
+                  </td>
+               </template>
+            </v-data-table>
+         </v-app>
+      </div>
+
+      <hr>
+      <div id="story-management-container">
+         <h2> Story Management </h2>
          <br>
-         <input type = "file" name = "zoom_file" />
-         <br>
-         <br>
-         <input type = "submit"/>
-      </form>
+         <v-app class="vue-application">
+            <v-card>
+               <v-card-title class="container-title">
+                  <h2>Upload Story</h2>
+               </v-card-title>
+               <v-card-text>
+                  <form action = "http://127.0.0.1:5000/admin/upload_story" method = "post" enctype = "multipart/form-data" id="upload-story-form">
+                     <div>
+                        <span>Story File: </span> <input @change="updateNewStoryFile" type="file" name="file" class='upload-story-button'/>
+                     </div>
+                     <v-text-field v-model="uploadedStoryTitle" name="title" label="Title" :rules="[rules.required]"></v-text-field>
+                  </form>
+               </v-card-text>
+               <v-card-actions>
+                  <v-btn @click="submit" :disabled="!uploadNewStoryFormIsValid">Submit</v-btn>
+               </v-card-actions>
+            </v-card>
+            <br>
+             <v-dialog v-model="editDialog" max-width="500px">
+               <v-card>
+                  <v-card-title>
+                     <span class="headline">Update Story File</span>
+                  </v-card-title>
+        
+                  <v-card-text>
+                     <v-container grid-list-md>
+                        <h2>Story: {{ '{{ editedItem.id}}' }} - {{ '{{ editedItem.title}}' }}</h2>
+                        <br>
+                        <form action = "http://127.0.0.1:5000/admin/edit_story_info" method = "post" enctype = "multipart/form-data" id="edit-story-form">
+                           <div>
+                              <span>Story File: </span> <input id="update-exist-file" @change="updateExistStoryFile" type="file" name ="file" class='upload-story-button' />
+                           </div>
+                           <v-text-field  v-model="editedItem.title" name="title" label="Title" :rules="[rules.required]"></v-text-field>
+                           <input type="hidden" :value="editedItem.id" name="id" />
+                        </form>
+                     </v-container>
+                  </v-card-text>
+        
+                  <v-card-actions>
+                     <v-spacer></v-spacer>
+                     <v-btn color="blue darken-1" flat @click="close">Cancel</v-btn>
+                     <v-btn color="blue darken-1" flat @click="save" :disabled="!uploadExistStoryFormIsValid">Save</v-btn>
+                  </v-card-actions>
+               </v-card>
+            </v-dialog>
+            <h2>Story List</h2>
+            <v-data-table :headers="storyTableHeaders" :items="storyInfo">
+               <template v-slot:items="props">
+                  <td>{{ '{{ props.item.id}}' }}</td>
+                  <td>{{ '{{ props.item.title}}' }}</td>
+                  <td class="text-xs-left">
+                     <v-icon small class="mr-2" @click="editItem(props.item)">edit</v-icon>
+                     <v-icon small @click="deleteItem(props.item)">delete</v-icon>
+                     <v-icon style="margin-left:6px;" small @click="downloadItem(props.item)">fas fa-arrow-down</v-icon>
+                  </td>
+               </template>
+            </v-data-table>
+         </v-app>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+      <script src="/static/js/admin-component.js"></script>
    </body>
 </html>

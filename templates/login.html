@@ -3,40 +3,27 @@
 	<title>Log In</title>
 	<meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 	<link href = "/static/css/backend.css" rel = "stylesheet" type = "text/css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	<style rel = "stylesheet" type = "text/css">
-	.login-input
-	{
-		margin-bottom: 20px;
-	}
-	</style>
+	<link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
 </head>
 <body>
-	<div id = "login-area" class="row">
-		<div id="login-container" class="col-md-4 col-sm-12 col-md-offset-4">
-			<form action = "/admin" method = "post">
-				<div class="form-group">
-					<label for = "username" class = "col-sm-3 control-label">Username:</label>
-					<div class = "col-sm-9 login-input">
-						<input name = "username" type = "text" class = "form-control">
-					</div>
-				</div>
-				<div class="form-group">
-					<label for = "password" class = "col-sm-3 control-label">Password:</label>
-					<div class = "col-sm-9 login-input">
-						<input name = "password" type = "password" class = "form-control login-input">
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-offset-3 col-sm-9">
-						<button type = "submit" name = "submit" class = "btn btn-primary">Log in</button>
-					</div>
-				</div>
-			</form>
-		</div>
+	<h1> Log In </h1>
+	<div id="login-container">
+		<v-card>
+			<v-card-text>
+				<form action="/admin" method="post" id="login-form">
+					<v-text-field v-model="username" name="username" label="Username" required></v-text-field>
+					<v-text-field v-model="password" name="password" label="Password" type="password" required></v-text-field>
+				</form>
+			</v-card-text>
+			<v-card-actions>
+				<v-btn @click="submit">Log In</v-btn>
+			</v-card-actions>
+		</v-card>
 	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="/static/js/login-component.js"></script>
 </body>
 </html>
